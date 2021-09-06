@@ -66,6 +66,7 @@ class LinkedList:
             slow = slow.next
         slow.next = slow.next.next
         return dummy.next   
+    
     def order_search(self,item):
         current=self.head
         found=False
@@ -96,10 +97,71 @@ class LinkedList:
         else:
             temp.next=current
             previous.next=temp
-   
-                
+    def rotateRight(self,k):
+        if not self.head:
+            return self.head
+        #getlength
+        length,tail=1,self.head
+        while tail.next:
+            tail=tail.next
+            length+=1
+        k=k%length
+        if k==0:
+            return self.head
+        #move tothe pivot
+        cur=self.head 
+        for i in range(length-k-1):
+            cur=cur.next
+        newhead,cur.next,tail.next=cur.next,None,self.head
+        self.head=newhead
+    def swapPairs(self):
+        dummy=Node()
+        pre,pre.next=dummy,self.head
+        while pre.next and pre.next.next:
+            cur=pre.next
+            nxt=cur.next
+            pre.next,nxt.next,cur.next=nxt,cur,nxt.next
+            pre=cur
+        self.head=dummy.next
+    def reverseKGroup(self,k):
+        dummy=jump=Node()
+        dummy.next=l=r=self.head
+        while True:
+            count=0
+            while r and count<k:
+                r=r.next
+                count+=1
+            if count==k:
+                pre,cur=r,l
+                for _ in range(k):
+                    cur.next,cur,pre=pre,cur.next,cur
+                jump.next,jump,l=pre,l,r 
+            else:
+                self.head=dummy.next   
+                return self.head    
+    def removeDuplicates(self):
+        dummy=pre=Node()
+        cur=self.head 
+        while cur and cur.next:
+            if cur.val==cur.next.val:
+                while cur and cur.next \
+                    and cur.val==cur.next.val:
+                    cur=cur.next
+                cur=cur.next
+                pre.next=cur
+            else:
+                pre=pre.next 
+                cur=cur.next   
+        self.head=dummy.next
+    def deleteDuplicates(self):
+        cur=self.head
+        while cur:
+            while cur.next and cur.next.val==cur.val:
+                cur.next=cur.next.next
+            cur=cur.next
+        
              
-class solution():  
+class Tools():  
     @staticmethod  
     def py_list(head):
         lst=[]
@@ -137,18 +199,25 @@ class solution():
             cur=cur.next
         cur.next=l1_node or l2_node
         return dummy.next
-   
-                
+    @staticmethod
+    def mergeKLists(lists):
+        if len(lists)==0:
+            return None 
+        elif len(lists)==1:
+            return lists[0]
+        else:
+            output=lists[0]
+        for i in range(1,len(lists)):
+            output=solution.mergeTwoLists(output,lists[i])
+        return output
+    
         
         
 if __name__ == '__main__':
     test=LinkedList()
     test2=LinkedList()
-    for i in [1,2,4,54]:
+    for i in [1,1,1,2,3,4]:
         test.append(i)
-    for j in [3,7,8]:
-        test2.append(j)
-    new_head=solution.mergeTwoLists(test.head,test2.head)
-    print(solution.hello(new_head))
-
     
+    test.removeDuplicates()
+    test.display()
