@@ -271,9 +271,36 @@ class LinkedList:
             cur.next=new.next
             new.next=pre.next
             pre.next=new
-        return dummy.next
+        self.haed=dummy.next
     def SortList(self):
         self.head=Tools.SortList(self.head)
+    def isPalindrome(self):
+        rev=None
+        slow=fast=self.head
+        while fast and fast.next:
+            fast=fast.next.next 
+            rev,rev.next,slow=slow,rev,slow.next  
+        if fast:
+            slow=slow.next 
+        while rev and rev.val==slow.val:
+            slow=slow.next 
+            rev=rev.next 
+        return not rev
+    def oddEvenList(self):
+        dummy1=odd=Node()
+        dummy2=even=Node()
+        while self.head:
+            odd.next=self.head
+            even.next=self.head.next
+            odd=odd.next
+            even=even.next 
+            if even:
+                self.head=self.head.next.next 
+            else:
+                self.head=None
+        odd.next=dummy2.next
+        self.head=dummy1.next
+                
         
 class Tools():  
     @staticmethod  
@@ -352,8 +379,8 @@ class Tools():
 if __name__ == '__main__':
     test=LinkedList()
     test2=LinkedList()
-    for i in [1,5,2,5,31,1]:
+    for i in [1,2,3,4,5]:
         test.append(i)
     
-    test.SortList()
+    test.oddEvenList()
     test.display()
