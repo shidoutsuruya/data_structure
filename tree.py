@@ -60,15 +60,15 @@ class BinaryTree:
             self.rightChild.preorder()
     def inorder(self):
         if self.leftChild:
-            self.leftChild.preorder()
+            self.leftChild.inorder()
         print(self.key)   
         if self.rightChild:
-            self.rightChild.preorder()
+            self.rightChild.inorder()
     def postorder(self):
         if self.leftChild:
-            self.leftChild.preorder()      
+            self.leftChild.postorder()      
         if self.rightChild:
-            self.rightChild.preorder()
+            self.rightChild.postorder()
         print(self.key)
 class Stack:
     def __init__(self):
