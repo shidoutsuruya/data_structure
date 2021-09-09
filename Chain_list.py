@@ -300,6 +300,36 @@ class LinkedList:
                 self.head=None
         odd.next=dummy2.next
         self.head=dummy1.next
+    def splitListToParts(self,k):
+        #count num
+        length=0
+        cur=self.head
+        while cur:
+            length+=1
+            cur=cur.next
+        #divide into several list,return node
+        ans=[None for _ in range(k)]
+        l,r=divmod(length,k)
+        pre=None
+        for i in range(k):
+            ans[i]=self.head
+            for j in range(l+(1 if r>0 else 0)):
+                pre=self.head
+                self.head=self.head.next
+            if pre:
+                pre.next=None
+            r-=1
+        #show lists in list
+        all_lst=[]
+        for head in ans:
+            lst=[]
+            while head:
+                lst.append(head.val)
+                head=head.next
+            all_lst.append(lst)
+        return all_lst
+            
+        
                 
         
 class Tools():  
@@ -312,7 +342,7 @@ class Tools():
             cur=cur.next
         return lst
     @staticmethod  
-    def addTwoNumbers(l1,l2):
+    def addTwoNumbers_reverse(l1,l2):
         carry=0
         cur=dummy=Node()
         while l1 or l2 or carry:
@@ -376,11 +406,40 @@ class Tools():
             else:
                 cur2=l1
         return l1
+    @staticmethod
+    def addTwoNumbers(l1,l2):
+        num1=num2=0
+        while l1:
+            num1=num1*10+l1.val
+            l1=l1.next
+        while l2:
+            num2=num2*10+l2.val
+            l2=l2.next
+        sum_=num1+num2
+        dummy=head=Node()
+        if sum_==0:
+            return head
+        while sum_>0:
+            head.next=Node(sum_%10)
+            head=head.next
+            sum_//=10
+        #reverse answer
+        pre=None
+        cur=dummy.next
+        while cur:
+            nxt=cur.next
+            cur.next=pre
+            pre=cur
+            cur=nxt
+        return pre
+        
 if __name__ == '__main__':
     test=LinkedList()
     test2=LinkedList()
     for i in [1,2,3,4,5]:
         test.append(i)
-    
-    test.oddEvenList()
+        test2.append(i)
+    lst=test.splitListToParts(3)
+    print(lst)
     test.display()
+    
